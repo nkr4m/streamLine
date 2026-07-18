@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: streamline-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: streamline-redisinsight
+    ports:
+      - "5540:5540" # Default port for the RedisInsight web UI
+    restart: unless-stopped
+    depends_on:
+      - redis

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>StreamLine Client</h2>
+    <input type="text" id="userId" placeholder="Enter your User ID" />
+    <input type="text" id="port" value="8080" placeholder="Server Port (8080 or 8081)" />
+    <button onclick="connect()">Connect</button>
+    <div id="messages" style="margin-top: 20px; border: 1px solid #ccc; height: 300px; padding: 10px;"></div>
+
+    <script>
+        let ws;
+        function connect() {
+            const userId = document.getElementById('userId').value;
+            const port = document.getElementById('port').value;
+            ws = new WebSocket(`ws://localhost:${port}/chat/${userId}`);
+            
+            ws.onopen = () => alert("Connected as " + userId);
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                document.getElementById('messages').innerHTML += 
+                    `<p><b>${msg.sender}:</b> ${msg.content}</p>`;
+            };
+        }
+    </script>
+</body>
+</html>
